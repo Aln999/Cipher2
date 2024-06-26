@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Diffie-Hellman Key Exchange</title>
+<script>
+function generateKeys() {
+    // Get prime (p), base (g), and private keys from user input
+    const prime = parseInt(document.getElementById("prime").value);
+    const base = parseInt(document.getElementById("base").value);
+    const alicePrivateKey = parseInt(document.getElementById("alicePrivate").value);
+    const bobPrivateKey = parseInt(document.getElementById("bobPrivate").value);
+
+    // Calculate public key for Alice and Bob
+    const alicePublicKey = BigInt(base) ** BigInt(alicePrivateKey) % BigInt(prime); // Alice's public key
+    const bobPublicKey = BigInt(base) ** BigInt(bobPrivateKey) % BigInt(prime); // Bob's public key
+
+    // Calculate shared secret key for Alice and Bob
+    const aliceSharedKey = BigInt(bobPublicKey) ** BigInt(alicePrivateKey) % BigInt(prime); // Alice's shared key
+    const bobSharedKey = BigInt(alicePublicKey) ** BigInt(bobPrivateKey) % BigInt(prime); // Bob's shared key
+
+    // Display results
+    document.getElementById("alicePublic").innerHTML = alicePublicKey;
+    document.getElementById("bobPublic").innerHTML = bobPublicKey;
+    document.getElementById("aliceShared").innerHTML = aliceSharedKey;
+    document.getElementById("bobShared").innerHTML = bobSharedKey;
+}
+</script>
+</head>
+<body>
+  <h1>Diffie-Hellman Key Exchange</h1>
+  <label for="prime">Enter Prime (p):</label>
+  <input type="number" id="prime" name="prime" required><br><br>
+  <label for="base">Enter Base (g):</label>
+  <input type="number" id="base" name="base" required><br><br>
+  <label for="alicePrivate">Enter Alice's Private Key:</label>
+  <input type="number" id="alicePrivate" name="alicePrivate" required><br><br>
+  <label for="bobPrivate">Enter Bob's Private Key:</label>
+  <input type="number" id="bobPrivate" name="bobPrivate" required><br><br>
+  <button onclick="generateKeys()">Perform Key Exchange</button>
+  <div>
+    <h2>Alice's Keys</h2>
+    <p>Public Key: <span id="alicePublic"></span></p>
+    <p>Shared Key: <span id="aliceShared"></span></p>
+  </div>
+  <div>
+    <h2>Bob's Keys</h2>
+    <p>Public Key: <span id="bobPublic"></span></p>
+    <p>Shared Key: <span id="bobShared"></span></p>
+  </div>
+</body>
+</html>
+
